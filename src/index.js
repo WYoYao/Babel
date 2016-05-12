@@ -1,6 +1,6 @@
-import React,{Component} from 'react';
-class DemoComponent extends Component{
-  render(){
-    return<h1>HelloWorld</h1>
-  }
-}
+import 'babel-polyfill';
+
+Array.from('asdfgh');
+var fn=(a,b)=>a+b;
+let [a,b]=[1,2];
+console.log(a,b);

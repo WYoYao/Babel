@@ -116,4 +116,77 @@ class DemoComponent extends Component{
 
 > 这个时候react 的预设已经解决了
 
-# 29：27 <http://www.zhufengpeixun.cn/course/31/learn#lesson/771>
+> 下面有几个常用的插件
+
+> - 这个插件转换ES2015模块UMD格式。
+> - This plugin transforms ES2015 modules to UMD.
+> - 让代码更加的简洁
+> - babel-plugin-transform-runtime
+> - 只用用到的es2015只是将代码中的语法转换成低版本的，但是API并没有转换，需要使用转换API的时候需要用到polyfill;
+
+### 使用es2015+polyfill(语法+API完全兼容ES6)
+
+> 首先需要安装polyfill 包<br>
+
+> ```
+> npm install --save-dev babel-polyfill
+> ```
+
+> 安装完polyfill之后需要在文件中导入polyfill<br>
+> polyfill 并不是一个插件，所以并不需要修改.babelrc
+
+> ```
+> import 'babel-polyfill';
+> Array.from('asdfgh');
+> var fn=(a,b)=>a+b;
+> let [a,b]=[1,2];
+> console.log(a,b);
+> ```
+
+> 通力想要使用ES7的语法只需要下载并引用相对应的包(后面数字越小越基础)
+
+> - npm install --save-dev babel-preset-stage-0
+> - npm install --save-dev babel-preset-stage-1
+> - npm install --save-dev babel-preset-stage-2
+> - npm install --save-dev babel-preset-stage-3
+
+### gulp+babel 结合使用
+
+> 首先安装对应的两个包gulp 和 gulp对应的包
+
+```
+npm install gulp gulp-babel --save-dev
+```
+
+> 接下来创建gulp对应的配置文件
+
+> ```
+> touch gulpfile.js
+> ```
+
+> 接下来在配置文件中引用gulp gulp-babel
+
+```
+var gulp=require('gulp'); var babel=require('gulp-babel'); //创建一个名为babel的任务 gulp.task('babel',function(){
+
+return gulp.src('src/*.js')<br>
+//因为我们创建的有.babelrc这个文件所以，直接写babel()就好<br>
+.pipe(babel()) //如果没有创建对应的配置文件的时候则需要 //在中间写入对应的配置命令<br>
+//.pipe(babel({···Code···})) })<br>
+.pipe(gulp.dest('build'))<br>
+```
+
+> 上面代码的作用
+
+> - 使用gulp创建了一个task(任务)，这个任务名叫babel
+> - 先匹配到src 这个目录下面的所有js文件
+> - 通过管道流pipe 输出到babel 里面进行编译
+> - 然后输出到build中
+
+### 使用gulp配置的时候一定要写一个默认的任务，不然会出错
+
+```
+gulp.task('default',['babel']);
+```
+
+> 配置package.json 的时候最要使用私有的模块，避免使用全局的模块
